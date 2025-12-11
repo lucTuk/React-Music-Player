@@ -43,6 +43,7 @@ function App() {
                     <MusicHeader />
                     <div className="flex flex-col justify-center items-center gap-[3vh]">
                         <VinylPlayer
+                            key={musicPlayerStore.currentTrack?.src}
                             isPlaying={musicPlayerStore.isPlaying}
                             totalDots={36}
                         />

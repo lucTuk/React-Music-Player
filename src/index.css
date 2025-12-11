@@ -3,19 +3,18 @@
 
 @theme {
     --font-open-sans: "Open Sans", "sans-serif";
-    --animate-spin-slow: spin-slow 5s linear infinite;
-    
-    @keyframes spin-slow {
-        from {
-            transform: rotate(360deg);
-        }
-
-        to {
-            transform: rotate(0deg);
-        }
-    }
 }
 
 body {
-    background-color: #FFF;
+    background-color: #fff;
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
 }

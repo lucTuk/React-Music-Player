@@ -6,9 +6,14 @@ import { musicPlayerStore } from "../../store/store";
 interface Props {
     isPlaying: boolean;
     totalDots: number;
+    rotationSpeedDefault?: number;
 }
 
-export function VinylPlayer({ isPlaying, totalDots }: Props) {
+export function VinylPlayer({
+    isPlaying,
+    totalDots,
+    rotationSpeedDefault = 8,
+}: Props) {
     const [dotColors, setDotColors] = useState<string[]>(
         Array(totalDots).fill("#B6B6B6")
     );
@@ -16,6 +21,8 @@ export function VinylPlayer({ isPlaying, totalDots }: Props) {
     const [dotRadii, setDotRadii] = useState<number[]>(
         Array(totalDots).fill(0.5)
     );
+
+    const [rotationSpeed, setRotationSpeed] = useState<number>(10);
 
     useEffect(() => {
         let animationFrameId: number;
@@ -51,15 +58,25 @@ export function VinylPlayer({ isPlaying, totalDots }: Props) {
         setDotRadii(newRadii);
     }, [musicPlayerStore.currentTime, musicPlayerStore.duration]);
 
+    useEffect(() => {
+        if (musicPlayerStore.duration) {
+            const speed = Math.max(3, 3 + musicPlayerStore.duration / 35);
+            setRotationSpeed(speed);
+        }
+    }, [musicPlayerStore.duration]);
+
     return (
         <>
             <div className="relative h-[40vh] flex items-center justify-center">
                 <img
                     src={CDImage}
                     alt="CD Cover"
-                    className={`h-[24vh] ${
-                        isPlaying ? "animate-spin-slow" : ""
-                    }`}
+                    className={`h-[24vh] transition-transform duration-${rotationSpeed}s linear infinite disk`}
+                    style={{
+                        animation: isPlaying
+                            ? `spin-slow ${rotationSpeed}s linear infinite`
+                            : `spin-slow ${rotationSpeedDefault}s linear infinite`,
+                    }}
                 />
                 <div
                     className="absolute h-[38vh] w-[38vh] rounded-full"
