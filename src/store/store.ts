@@ -8,24 +8,30 @@ class MusicPlayerStore {
     duration: number = 0;
     currentTime: number = 0;
     audio: HTMLAudioElement | null = null;
+    onTrackEnded: (() => void) | null = null;
 
     constructor() {
         makeAutoObservable(this);
     }
 
     setDuration(duration: number) {
-        this.duration = duration
+        this.duration = duration;
     }
 
     setCurrentTime(currentTime: number) {
-        this.currentTime = currentTime
+        this.currentTime = currentTime;
     }
 
     initAudio(src: string) {
         this.audio = new Audio(src);
+
         this.audio.addEventListener("loadedmetadata", () => {
-            this.setDuration(this.audio?.duration || 0)
-            this.setCurrentTime(this.audio?.currentTime || 0)
+            this.setDuration(this.audio?.duration || 0);
+            this.setCurrentTime(this.audio?.currentTime || 0);
+        });
+
+        this.audio.addEventListener("ended", () => {
+            this.onTrackEnded?.();
         });
     }
 
@@ -49,6 +55,16 @@ class MusicPlayerStore {
             this.currentTime = this.audio.currentTime;
             this.duration = this.audio.duration;
         }
+    }
+
+    seekToTime(time: number) {
+        if (!this.audio) return;
+        this.audio.currentTime = time;
+        this.currentTime = time;
+    }
+
+    setOnTrackEnded(callback: () => void) {
+        this.onTrackEnded = callback;
     }
 }
 

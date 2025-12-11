@@ -65,6 +65,13 @@ export function VinylPlayer({
         }
     }, [musicPlayerStore.duration]);
 
+    const handleDotClick = (index: number) => {
+        if (!musicPlayerStore.audio) return;
+
+        const targetTime = (index / totalDots) * musicPlayerStore.duration;
+        musicPlayerStore.seekToTime(targetTime);
+    };
+
     return (
         <>
             <div className="relative h-[40vh] flex items-center justify-center">
@@ -94,7 +101,7 @@ export function VinylPlayer({
                 />
 
                 <svg
-                    className="absolute h-[45vh] pointer-events-none"
+                    className="absolute h-[45vh] cursor-pointer"
                     viewBox="0 0 100 100"
                     preserveAspectRatio="xMidYMid meet"
                 >
@@ -104,14 +111,23 @@ export function VinylPlayer({
                         const x = 50 + 45 * Math.cos(rad);
                         const y = 50 + 45 * Math.sin(rad);
                         return (
-                            <circle
-                                key={i}
-                                cx={x}
-                                cy={y}
-                                r={dotRadii[i]}
-                                className="transition-all duration-700 ease-in-out"
-                                fill={dotColors[i]}
-                            />
+                            <g key={i}>
+                                <circle
+                                    cx={x}
+                                    cy={y}
+                                    r={dotRadii[i] + 2}
+                                    fill="transparent"
+                                    cursor="pointer"
+                                    onClick={() => handleDotClick(i)}
+                                />
+                                <circle
+                                    cx={x}
+                                    cy={y}
+                                    r={dotRadii[i]}
+                                    fill={dotColors[i]}
+                                    className="transition-all duration-700 ease-in-out"
+                                />
+                            </g>
                         );
                     })}
                 </svg>

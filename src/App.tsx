@@ -4,7 +4,7 @@ import { musicPlayerStore } from "./store/store";
 import { TrackInfo } from "./components/TrackInfo/TrackInfo";
 import { PlaybackControls } from "./components/Controls/PlaybackControls";
 import { tracks } from "./data/tracks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -35,6 +35,12 @@ function App() {
     const skipForward = () => {
         switchTrack(1);
     };
+
+    useEffect(() => {
+        musicPlayerStore.setOnTrackEnded(() => {
+            skipForward();
+        });
+    }, []);
 
     return (
         <>
