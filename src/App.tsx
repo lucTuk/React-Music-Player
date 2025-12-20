@@ -44,7 +44,7 @@ function App() {
 
     return (
         <>
-            <div className="flex flex-col justify-center min-h-screen">
+            <div className="text-dark flex flex-col justify-center min-h-screen">
                 <div className="flex flex-col gap-[2vh] h-[60vh]">
                     <MusicHeader />
                     <div className="flex flex-col justify-center items-center gap-[3vh]">

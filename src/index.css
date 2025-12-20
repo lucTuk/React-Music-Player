@@ -1,12 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --font-open-sans: "Open Sans", "sans-serif";
+
+    --color-dark: #000;
+    --color-white: #fff;
+    --color-gray-light: #e4e4e4;
+    --color-gray: #b6b6b6;
+    --color-transparent-white: rgba(240, 240, 240, 0.3);
+}
+
+.dark {
+    --color-dark: #f0f0f0;
+    --color-white: #121212;
+    --color-gray-light: #333333;
+    --color-gray: #555555;
+    --color-transparent-white: rgba(71, 71, 71, 0.4);
 }
 
 body {
-    background-color: #fff;
+    background-color: var(--color-white);
 }
 
 @keyframes spin-slow {

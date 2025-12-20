@@ -14,6 +14,8 @@ export function VinylPlayer({
     totalDots,
     rotationSpeedDefault = 8,
 }: Props) {
+    const currentTheme = document.body.classList;
+
     const [dotColors, setDotColors] = useState<string[]>(
         Array(totalDots).fill("#B6B6B6")
     );
@@ -48,7 +50,8 @@ export function VinylPlayer({
         );
         const activeDots = Math.floor(progress * totalDots);
         const newColors = Array.from({ length: totalDots }, (_, i) => {
-            return i < activeDots ? "#050505" : "#B6B6B6";
+            if (!currentTheme) return i < activeDots ? "#000000" : "#B6B6B6";
+            return i < activeDots ? "#ffffff" : "#B6B6B6";
         });
         const newRadii = Array.from({ length: totalDots }, (_, i) => {
             return i < activeDots ? 1 : 0.5;
@@ -88,7 +91,7 @@ export function VinylPlayer({
                 <div
                     className="absolute h-[38vh] w-[38vh] rounded-full"
                     style={{
-                        background: "rgba(240, 240, 240, 0.3)",
+                        background: "var(--color-transparent-white)",
                         backdropFilter: "blur(20px)",
                         WebkitBackdropFilter: "blur(20px)",
                         boxShadow: "0 0 30px rgba(255, 255, 255, 0.4)",
